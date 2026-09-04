@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Health Details</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<h2 th:text="'📊 Health Details: ' + ${user.name}"></h2>
+
+<h3>Weekly Summary</h3>
+<ul>
+    <li>Total Steps: <b th:text="${weekly.totalSteps}"></b></li>
+    <li>Total Calories: <b th:text="${weekly.totalCalories}"></b></li>
+    <li>Total Water (L): <b th:text="${weekly.totalWater}"></b></li>
+    <li>Average Weight: <b th:text="${weekly.averageWeight}"></b></li>
+</ul>
+
+<canvas id="stepsChart" width="400" height="200"></canvas>
+
+<script th:inline="javascript">
+    const labels = [[${chart.dates}]];
+    const steps = [[${chart.steps}]];
+
+    new Chart(document.getElementById('stepsChart'), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Steps',
+          data: steps,
+          borderWidth: 2
+        }]
+      }
+    });
+</script>
+
+<a href="/admin">⬅ Back to Dashboard</a>
+
+</body>
+</html>
